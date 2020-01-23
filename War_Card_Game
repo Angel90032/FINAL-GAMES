@@ -33,7 +33,9 @@ class War:
             self.starting_deck.pop(0)
         p1_starting_list_of_cards = [x.name for x in self.cards_p1]
         p2_starting_list_of_cards = [x.name for x in self.cards_p2]
+        print(f"{self.player_1_name} has the following deck:")
         print(p1_starting_list_of_cards)
+        print(f"{self.player_2_name} has the following deck:")
         print(p2_starting_list_of_cards)
 
     def war_is_upon_us(self):
@@ -55,10 +57,11 @@ class War:
 
                 self.winner_gets_cards.extend(self.cards_p1[:4])
                 self.winner_gets_cards.extend(self.cards_p2[:4])
+                print(f"Total cards at stake: {len(self.winner_gets_cards)}")
                 vital_card_p1 = self.cards_p1[3]
                 vital_card_p2 = self.cards_p2[3]
-                print(f"{self.player_1_name} has a champion with value {vital_card_p1.value}.")
-                print(f"{self.player_2_name} has a champion with value {vital_card_p2.value}.")
+                print(f"{self.player_1_name} has a champion {vital_card_p1.name} with value {vital_card_p1.value}.")
+                print(f"{self.player_2_name} has a champion {vital_card_p2.name} with value {vital_card_p2.value}.")
                 self.cards_p1 = self.cards_p1[4:]
                 self.cards_p2 = self.cards_p2[4:]
 
@@ -101,8 +104,12 @@ class War:
             self.war_is_upon_us()
         p1_starting_list_of_cards = [x.name for x in self.cards_p1]
         p2_starting_list_of_cards = [x.name for x in self.cards_p2]
+        print(f"{self.player_1_name} has the following deck:")
         print(p1_starting_list_of_cards)
+        print(f"{self.player_1_name} has {len(self.cards_p1)} cards left.")
+        print(f"{self.player_2_name} has the following deck:")
         print(p2_starting_list_of_cards)
+        print(f"{self.player_2_name} has {len(self.cards_p2)} cards left.")
 
 
 def start_the_game():
