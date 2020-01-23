@@ -1,0 +1,125 @@
+from random import shuffle
+from random import randint
+import random
+
+''' WAR CARD GAME '''
+
+
+
+class Card:
+    def __init__(self, name, value: int):
+        self.name = name
+        self.value = value
+
+
+class War:
+    def __init__(self, player_1_name, player_2_name ):
+        self.player_1_name = player_1_name
+        self.player_2_name = player_2_name
+        self.cards_p1 = []
+        self.cards_p2 = []
+        self.winner_gets_cards = []
+        self.starting_deck = 4 * [Card("Two", 2), Card("Three", 3), Card("Four", 4), Card("Five", 5), Card("Six", 6),Card("Seven", 7), Card("Eight", 8), Card("Nine", 9), Card("Ten", 10),Card("Jack", 10), Card("Queen", 10), Card("King", 10),Card("Ace",11)]
+
+
+    def deal_cards(self):
+        random.shuffle(self.starting_deck)
+        while True:
+            if len(self.starting_deck) == 0:
+                break
+            self.cards_p1.append(self.starting_deck[0])
+            self.cards_p2.append(self.starting_deck[1])
+            self.starting_deck.pop(0)
+            self.starting_deck.pop(0)
+        p1_starting_list_of_cards = [x.name for x in self.cards_p1]
+        p2_starting_list_of_cards = [x.name for x in self.cards_p2]
+        print(p1_starting_list_of_cards)
+        print(p2_starting_list_of_cards)
+
+    def war_is_upon_us(self):
+        while True:
+            if len(self.cards_p1) < 4:
+                print("Sadly Player 1 does not have enough cards to perform 'War'.")
+                print("Player 1 loses the game. Congratulations Player 2, you WIN.")
+                self.cards_p1 = []
+                break
+
+            if len(self.cards_p2) < 4:
+                print("Sadly Player 2 does not have enough cards to perform 'War'.")
+                print("Player 2 loses the game. Congratulations Player 1, you WIN.")
+                self.cards_p2 = []
+                break
+
+
+            if len(self.cards_p1) >= 4 and  len(self.cards_p2) >= 0:
+
+                self.winner_gets_cards.extend(self.cards_p1[:4])
+                self.winner_gets_cards.extend(self.cards_p2[:4])
+                vital_card_p1 = self.cards_p1[3]
+                vital_card_p2 = self.cards_p2[3]
+                print(f"{self.player_1_name} has a champion with value {vital_card_p1.value}.")
+                print(f"{self.player_2_name} has a champion with value {vital_card_p2.value}.")
+                self.cards_p1 = self.cards_p1[4:]
+                self.cards_p2 = self.cards_p2[4:]
+
+                if vital_card_p1.value > vital_card_p2.value:
+                    self.cards_p1 += self.winner_gets_cards
+                    self.winner_gets_cards = []
+                    print(f"{self.player_1_name} HAS WON THE WAR !!!")
+                    break
+                elif vital_card_p1.value < vital_card_p2.value:
+                    self.cards_p2 += self.winner_gets_cards
+                    self.winner_gets_cards = []
+                    print(f"{self.player_2_name} HAS WON THE WAR !!!")
+                    break
+                elif vital_card_p1.value == vital_card_p2.value:
+                    print("OMG its WAR all over again.")
+                    self.war_is_upon_us()
+
+
+
+    def compare_cards(self):
+        p1_card = self.cards_p1[0]
+        print(f"{self.player_1_name} drew {self.cards_p1[0].name}")
+        p2_card = self.cards_p2[0]
+        print(f"{self.player_2_name} drew {self.cards_p2[0].name}")
+        if p1_card.value != p2_card.value:
+            self.cards_p1.pop(0)
+            self.cards_p2.pop(0)
+        if p1_card.value > p2_card.value:
+            self.cards_p1.append(p1_card)
+            self.cards_p1.append(p2_card)
+            print(f"{self.player_1_name} won the current battle.")
+
+        elif p1_card.value < p2_card.value:
+            self.cards_p2.append(p1_card)
+            self.cards_p2.append(p2_card)
+            print(f"{self.player_2_name} won the current battle.")
+
+        elif p1_card.value == p2_card.value:
+            print("WAR !")
+            self.war_is_upon_us()
+        p1_starting_list_of_cards = [x.name for x in self.cards_p1]
+        p2_starting_list_of_cards = [x.name for x in self.cards_p2]
+        print(p1_starting_list_of_cards)
+        print(p2_starting_list_of_cards)
+
+
+def start_the_game():
+    player_1_choose_name = input("Player one please enter your name: ")
+    player_2_choose_name = input("Player two please enter your name: ")
+    epic_war = War(player_1_choose_name, player_2_choose_name)
+    epic_war.deal_cards()
+    while True:
+        if len(epic_war.cards_p1) == 0 or len(epic_war.cards_p2) == 0:
+            print("The game ended.")
+            break
+        answer = input("Are you ready for the next round? Y/N: ")
+        if answer == "N":
+            print("Have a nice day.")
+            break
+        elif answer == "Y":
+            epic_war.compare_cards()
+
+
+start_the_game()
