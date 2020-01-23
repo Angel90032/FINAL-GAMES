@@ -2,7 +2,7 @@ from random import shuffle
 from random import randint
 import random
 
-''' WAR CARD GAME '''
+''' WAR CARD GAME, Cards values = BlackJack card values '''
 
 
 
