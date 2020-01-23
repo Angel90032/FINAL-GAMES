@@ -17,62 +17,68 @@ class tik_board():
     def player_X_make_a_move(self,player_x_name):
 
         while True:
+            if len(self.free_square_list) == 0:
+                break
             move = int(input(f"{player_x_name} choose a free number from 1 - 9: "))
             if move in self.free_square_list:
                 self.free_square_list.remove(move)
                 print(f"{player_x_name} your move is valid.")
+                if move == 1:
+                    self.one = "X"
+                elif move == 2:
+                    self.two = "X"
+                elif move == 3:
+                    self.three = "X"
+                elif move == 4:
+                    self.four = "X"
+                elif move == 5:
+                    self.five = "X"
+                elif move == 6:
+                    self.six = "X"
+                elif move == 7:
+                    self.seven = "X"
+                elif move == 8:
+                    self.eight = "X"
+                elif move == 9:
+                    self.nine = "X"
                 break
             else:
                 print(f"{player_x_name} please choose a free square to move your move.")
-                move = input(f"{player_x_name} choose a valid number from 1 - 9: ")
+                #move = input(f"{player_x_name} choose a valid number from 1 - 9: ")
 
-        if move == 1:
-            self.one = "X"
-        elif move == 2:
-            self.two = "X"
-        elif move == 3:
-            self.three = "X"
-        elif move == 4:
-            self.four = "X"
-        elif move == 5:
-            self.five = "X"
-        elif move == 6:
-            self.six = "X"
-        elif move == 7:
-            self.seven = "X"
-        elif move == 8:
-            self.eight = "X"
-        elif move == 9:
-            self.nine = "X"
+
 
     def player_Y_make_a_move(self,player_y_name):
         while True:
+            if len(self.free_square_list) == 0:
+                break
             move = int(input(f"{player_y_name} choose a free number from 1 - 9: "))
             if move in self.free_square_list:
                 self.free_square_list.remove(move)
                 print(f"{player_y_name} your move is valid.")
+                if move == 1:
+                    self.one = "Y"
+                elif move == 2:
+                    self.two = "Y"
+                elif move == 3:
+                    self.three = "Y"
+                elif move == 4:
+                    self.four = "Y"
+                elif move == 5:
+                    self.five = "Y"
+                elif move == 6:
+                    self.six = "Y"
+                elif move == 7:
+                    self.seven = "Y"
+                elif move == 8:
+                    self.eight = "Y"
+                elif move == 9:
+                    self.nine = "Y"
                 break
             else:
                 print(f"{player_y_name} please choose a free square to move your move.")
-                move = int(input(f"{player_y_name} choose a free number from 1 - 9: "))
-        if move == 1:
-            self.one = "Y"
-        elif move == 2:
-            self.two = "Y"
-        elif move == 3:
-            self.three = "Y"
-        elif move == 4:
-            self.four = "Y"
-        elif move == 5:
-            self.five = "Y"
-        elif move == 6:
-            self.six = "Y"
-        elif move == 7:
-            self.seven = "Y"
-        elif move == 8:
-            self.eight = "Y"
-        elif move == 9:
-            self.nine = "Y"
+                #move = int(input(f"{player_y_name} choose a free number from 1 - 9: "))
+
 
     def did_X_just_win(self,player_x_name):
         if self.one == self.two == self.three == "X" or self.four == self.five == self.six == "X" or self.seven == self.eight == self.nine == "X" \
@@ -128,7 +134,8 @@ def entering_a_coin():
                 print("The game ended in a draw")
                 break
             some_board.player_X_make_a_move(some_dict["X"])
-            some_board.print_table()
+            if len(some_board.free_square_list) != 0:
+                some_board.print_table()
             some_board.did_X_just_win(some_dict["X"])
             if some_board.did_X_just_win(some_dict["X"]):
                 print(some_board.did_X_just_win(some_dict["X"]))
