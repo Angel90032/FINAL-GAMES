@@ -1,0 +1,153 @@
+'''' Simple tic tac toe game with X and Y . X always goes first'''
+
+class tik_board():
+    def __init__(self, one=" ", two=" ", three=" ", four=" ", five=" ", six=" ", seven=" ", eight=" ", nine=" ", g = "No"):
+        self.one = one
+        self.two = two
+        self.three = three
+        self.four = four
+        self.five = five
+        self.six = six
+        self.seven = seven
+        self.eight = eight
+        self.nine = nine
+        self.free_square_list = [1,2,3,4,5,6,7,8,9]
+        self.game_ended = g
+
+    def player_X_make_a_move(self,player_x_name):
+
+        while True:
+            move = int(input(f"{player_x_name} choose a free number from 1 - 9: "))
+            if move in self.free_square_list:
+                self.free_square_list.remove(move)
+                print(f"{player_x_name} your move is valid.")
+                break
+            else:
+                print(f"{player_x_name} please choose a free square to move your move.")
+                move = input(f"{player_x_name} choose a valid number from 1 - 9: ")
+
+        if move == 1:
+            self.one = "X"
+        elif move == 2:
+            self.two = "X"
+        elif move == 3:
+            self.three = "X"
+        elif move == 4:
+            self.four = "X"
+        elif move == 5:
+            self.five = "X"
+        elif move == 6:
+            self.six = "X"
+        elif move == 7:
+            self.seven = "X"
+        elif move == 8:
+            self.eight = "X"
+        elif move == 9:
+            self.nine = "X"
+
+    def player_Y_make_a_move(self,player_y_name):
+        while True:
+            move = int(input(f"{player_y_name} choose a free number from 1 - 9: "))
+            if move in self.free_square_list:
+                self.free_square_list.remove(move)
+                print(f"{player_y_name} your move is valid.")
+                break
+            else:
+                print(f"{player_y_name} please choose a free square to move your move.")
+                move = int(input(f"{player_y_name} choose a free number from 1 - 9: "))
+        if move == 1:
+            self.one = "Y"
+        elif move == 2:
+            self.two = "Y"
+        elif move == 3:
+            self.three = "Y"
+        elif move == 4:
+            self.four = "Y"
+        elif move == 5:
+            self.five = "Y"
+        elif move == 6:
+            self.six = "Y"
+        elif move == 7:
+            self.seven = "Y"
+        elif move == 8:
+            self.eight = "Y"
+        elif move == 9:
+            self.nine = "Y"
+
+    def did_X_just_win(self,player_x_name):
+        if self.one == self.two == self.three == "X" or self.four == self.five == self.six == "X" or self.seven == self.eight == self.nine == "X" \
+                or self.one == self.four == self.seven == "X" or self.two == self.five == self.eight == "X" or self.three == self.six == self.nine == "X" \
+                or self.one == self.five == self.nine == "X" or self.three == self.five == self.seven == "X":
+            self.game_ended = "Yes"
+            return(f"{player_x_name} has won.")
+
+    def did_Y_just_win(self,player_y_name):
+        if self.one == self.two == self.three == "Y" or self.four == self.five == self.six == "Y" or self.seven == self.eight == self.nine == "Y" \
+                or self.one == self.four == self.seven == "Y" or self.two == self.five == self.eight == "Y" or self.three == self.six == self.nine == "Y" \
+                or self.one == self.five == self.nine == "Y" or self.three == self.five == self.seven == "Y":
+            self.game_ended = "Yes"
+            return(f"{player_y_name} has won.")
+
+    def print_table(self):
+
+        print(f" {self.one} |  {self.two}  |{self.three}")
+        print("---- ---- ----")
+        print(f" {self.four} |  {self.five}  |{self.six}")
+        print("---- ---- ----")
+        print(f" {self.seven} |  {self.eight}  |{self.nine}")
+
+
+def entering_a_coin():
+    answer = input("Do you want to play a game? Yes or No ?")
+    if answer == "Yes":
+
+        symbols_list = ["X", "Y"]
+        player_symbol_dict = {}
+        name_1 = input("Player one enter your name: ")
+        name_2 = input("Player two enter your name: ")
+        player_1_symbol = input("Player one choose X or Y: ")
+        symbols_list.pop(symbols_list.index(player_1_symbol))
+        player_2_symbol = symbols_list[0]
+        player_symbol_dict[name_1] = player_1_symbol
+        player_symbol_dict[name_2] = player_2_symbol
+        print(f"{name_1} chose {player_symbol_dict[name_1]}")
+        print(f"{name_2} is playing with {player_symbol_dict[name_2]}")
+        some_board = tik_board()
+        some_board.print_table()
+        some_dict = {}
+        if player_1_symbol == "X":
+            some_dict = {"X":name_1,"Y":name_2}
+        elif player_1_symbol == "Y":
+            some_dict = {"Y":name_1,"X":name_2}
+
+
+        while True:
+            if some_board.game_ended == "Yes":
+                break
+            if len(some_board.free_square_list) == 0:
+                print("The game ended in a draw")
+                break
+            some_board.player_X_make_a_move(some_dict["X"])
+            some_board.print_table()
+            some_board.did_X_just_win(some_dict["X"])
+            if some_board.did_X_just_win(some_dict["X"]):
+                print(some_board.did_X_just_win(some_dict["X"]))
+                break
+            some_board.player_Y_make_a_move(some_dict["Y"])
+            some_board.print_table()
+            some_board.did_Y_just_win(some_dict["Y"])
+            if some_board.did_Y_just_win(some_dict["Y"]):
+                print(some_board.did_Y_just_win(some_dict["Y"]))
+                break
+
+        play_again = input("Do you want to play another game? YES/NO:")
+        if play_again == "YES":
+                entering_a_coin()
+        else:
+                print("Have a nice day.")
+    else:
+        print("Well why did you enter a coin then ? :)")
+
+
+
+entering_a_coin()
