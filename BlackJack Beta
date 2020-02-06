@@ -1,0 +1,196 @@
+import random
+class Card:
+    def __init__(self,name:str,value:int):
+        self.name = name
+        self.value = value
+
+
+
+class BJ:
+    def __init__(self,player_name:str,player_bankroll:float):
+        self.player_name = player_name
+        self.player_bankroll = player_bankroll
+        self.cards_player = []
+        self.cards_dealer = []
+        self.all_cards = [Card("Two of clubs",2),Card("Two of diamonds",2),Card("Two of hearts",2),Card("Two of spades",2),
+                        Card("Three of clubs", 3),Card("Three of diamonds", 3),Card("Three of hearts", 3),Card("Three of spades", 3),
+                        Card("Four of clubs", 4), Card("Four of diamonds", 4), Card("Four of hearts", 4),Card("Four of spades", 4),
+                        Card("Five of clubs", 5), Card("Five of diamonds", 5), Card("Five of hearts", 5),Card("Five of spades", 5),
+                        Card("Six of clubs", 6), Card("Six of diamonds", 6), Card("Six of hearts", 6),Card("Six of spades", 6),
+                        Card("Seven of clubs", 7), Card("Seven of diamonds", 7), Card("Seven of hearts", 7),Card("Seven of spades", 7),
+                        Card("Eight of clubs", 8), Card("Eight of diamonds", 8), Card("Eight of hearts", 8),Card("Eight of spades", 8),
+                        Card("Nine of clubs", 9), Card("Nine of diamonds", 9), Card("Nine of hearts", 9),Card("Nine of spades", 9),
+                        Card("Ten of clubs", 10), Card("Ten of diamonds", 10), Card("Ten of hearts", 10),Card("Ten of spades", 10),
+                        Card("Jack of clubs", 10), Card("Jack of diamonds", 10), Card("Jack of hearts", 10),Card("Jack of spades", 10),
+                        Card("Queen of clubs", 10), Card("Queen of diamonds", 10), Card("Queen of hearts", 10),Card("Queen of spades", 10),
+                        Card("King of clubs", 10), Card("King of diamonds", 10), Card("King of hearts", 10),Card("King of spades", 10),
+                        Card("Ace of clubs", 11), Card("Ace of diamonds", 11), Card("Ace of hearts", 11),Card("Ace of spades", 11)] * 4
+        self.score_player = []
+        self.score_dealer = []
+
+    def final_score_and_cards(self):
+        print(f"{self.player_name} has a score of {sum(self.score_player)} from {self.cards_player}")
+        print(f"The dealer has a score of {sum(self.score_dealer)} from {self.cards_dealer}")
+
+    def check_bankroll(self):
+        print(f"{self.player_name} has a bankroll of {self.player_bankroll}.")
+
+    def player_draws_a_card(self):
+        drawn_card = random.choice(self.all_cards)
+        self.cards_player.append(drawn_card.name)
+        self.all_cards.remove(drawn_card)
+        self.score_player.append(drawn_card.value)
+        for card_value in self.score_player:
+            if card_value == 11 and sum(self.score_player) > 21:
+                self.score_player.remove(card_value)
+                self.score_player.append(1)
+        print(f"{self.player_name} drew {drawn_card.name}")
+        print(f"{self.player_name} now has a score of {sum(self.score_player)} from {len(self.score_player)} cards")
+
+
+    def dealer_draws_a_card(self):
+        d_card = random.choice(self.all_cards)
+        self.cards_dealer.append(d_card.name)
+        self.all_cards.remove(d_card)
+        self.score_dealer.append(d_card.value)
+        for card_value in self.score_dealer:
+            if card_value == 11 and sum(self.score_dealer) > 21:
+                self.score_dealer.remove(card_value)
+                self.score_dealer.append(1)
+        if len(self.score_dealer) != 2:
+            print(f"The dealer drew a {d_card.name}")
+            print(f"The dealer has a score of {sum(self.score_dealer)}")
+
+    def bet_amount(self):
+        amount = float(input("Choose an amount to bet:\n"))
+        if amount > self.player_bankroll:
+            while amount > self.player_bankroll:
+                amount = float(input("Please enter a valid amount.\n"))
+        if amount <= self.player_bankroll:
+            self.player_bankroll -= amount
+            print(f"Your bet of {amount:.2f} is accepted.")
+            return amount
+
+def play_the_game(bj_game:BJ):
+    bj_game.cards_player = []
+    bj_game.score_player = []
+    bj_game.cards_dealer = []
+    bj_game.score_dealer = []
+    current_bet = bj_game.bet_amount()
+    bj_game.player_draws_a_card()
+    bj_game.dealer_draws_a_card()
+    bj_game.player_draws_a_card()
+    bj_game.dealer_draws_a_card()
+
+    if bj_game.score_player == 21:
+        print(f"{bj_game.player_name} has a BlackJack.")
+        if bj_game.score_dealer == 21:
+            print("Amazing! The dealer has 21 as well !!!")
+            bj_game.player_bankroll += current_bet
+        else:
+            bj_game.player_bankroll += 2.5 * current_bet
+        bj_game.final_score_and_cards()
+
+
+    elif bj_game.score_player != 21:
+        print(f"{bj_game.player_name} has a score of {sum(bj_game.score_player)} "
+              f"from the following cards {bj_game.cards_player}.")
+
+        while True:
+            if bj_game.score_player == 21:
+                print("Great ! You managed to reach 21.")
+                break
+            answer = input(f"{bj_game.player_name} do you want to HIT or STAND?\n")
+            if answer == "STAND":
+                print(f"{bj_game.player_name} has a final score of {sum(bj_game.score_player)} from {bj_game.cards_player}.")
+                break
+            elif answer == "HIT":
+                bj_game.player_draws_a_card()
+                if sum(bj_game.score_player) > 21:
+                    print(f"You are bust!You have a score of {sum(bj_game.score_player)} from {bj_game.cards_player}")
+                    break
+
+
+    print(f"The dealer has {sum(bj_game.score_dealer)} from {bj_game.cards_dealer} cards. !!!!!!!!!!!!!!!")
+
+    if sum(bj_game.score_player) <= 21:
+        if sum(bj_game.score_dealer) == 21:
+            if sum(bj_game.score_player) == 21:
+                bj_game.player_bankroll += current_bet
+                print("Both the player and the dealer have 21\n The result is PUSH.")
+            elif sum(bj_game.score_dealer) > sum(bj_game.score_player):
+                print(f"The dealer wins the current hand.")
+            bj_game.final_score_and_cards()
+
+        elif 17 <= sum(bj_game.score_dealer) < 21:
+            print("The dealer is not allowed to draw more cards.")
+            if sum(bj_game.score_dealer) > sum(bj_game.score_player):
+                print("The dealer won the current hand.")
+            elif sum(bj_game.score_dealer) == sum(bj_game.score_player):
+                bj_game.player_bankroll += current_bet
+                print("The result is PUSH.")
+            elif sum(bj_game.score_dealer) < sum(bj_game.score_player):
+                bj_game.player_bankroll += 2 * current_bet
+                print(f"{bj_game.player_name} WON the current hand.")
+            bj_game.final_score_and_cards()
+
+        elif sum(bj_game.score_dealer) < 17:
+            while True:
+                if sum(bj_game.score_dealer) > sum(bj_game.score_player) and sum(bj_game.score_dealer) >= 17:
+                    print(f"The dealer has won the current hand.")
+                    break
+                bj_game.dealer_draws_a_card()
+                if sum(bj_game.score_dealer) > 21:
+                    bj_game.player_bankroll += 2 * current_bet
+                    print("The dealer busted. Player wins !")
+                    break
+                elif 17 <= sum(bj_game.score_dealer) <= 21:
+                    if sum(bj_game.score_dealer) > sum(bj_game.score_player):
+                        print("The dealer won the current hand.")
+                    elif sum(bj_game.score_dealer) == sum(bj_game.score_player):
+                        bj_game.player_bankroll += current_bet
+                        print("The result is PUSH.")
+                    elif sum(bj_game.score_dealer) < sum(bj_game.score_player):
+                        bj_game.player_bankroll += 2 * current_bet
+                        print(f"{bj_game.player_name} WON the current hand.")
+                    bj_game.final_score_and_cards()
+                    break
+                bj_game.final_score_and_cards()
+    bj_game.check_bankroll()
+    one_more_hand = input("Do you wanna play another game? YES/NO \n")
+
+    if one_more_hand == "NO":
+        print(f"{bj_game.player_name} left with {bj_game.player_bankroll:.2f}.Byeee")
+    elif one_more_hand == "YES" and bj_game.player_bankroll > 0:
+        play_the_game(bj_game)
+    elif one_more_hand == "YES" and bj_game.player_bankroll == 0:
+        print("You dont have enough funds")
+
+
+
+
+name = input("Enter your name: \n")
+bankroll = float(input("Enter your bankroll: \n"))
+game = BJ(name,bankroll)
+play_the_game(game)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
