@@ -92,7 +92,6 @@ def play_the_game(bj_game:BJ):
             bj_game.player_bankroll += 2.5 * current_bet
         bj_game.final_score_and_cards()
 
-
     elif bj_game.score_player != 21:
         print(f"{bj_game.player_name} has a score of {sum(bj_game.score_player)} "
               f"from the following cards {bj_game.cards_player}.")
@@ -112,51 +111,51 @@ def play_the_game(bj_game:BJ):
                     break
 
 
-    print(f"The dealer has {sum(bj_game.score_dealer)} from {bj_game.cards_dealer} cards. !!!!!!!!!!!!!!!")
+        print(f"The dealer has {sum(bj_game.score_dealer)} from {bj_game.cards_dealer} cards. !!!!!!!!!!!!!!!")
 
-    if sum(bj_game.score_player) <= 21:
-        if sum(bj_game.score_dealer) == 21:
-            if sum(bj_game.score_player) == 21:
-                bj_game.player_bankroll += current_bet
-                print("Both the player and the dealer have 21\n The result is PUSH.")
-            elif sum(bj_game.score_dealer) > sum(bj_game.score_player):
-                print(f"The dealer wins the current hand.")
-            bj_game.final_score_and_cards()
-
-        elif 17 <= sum(bj_game.score_dealer) < 21:
-            print("The dealer is not allowed to draw more cards.")
-            if sum(bj_game.score_dealer) > sum(bj_game.score_player):
-                print("The dealer won the current hand.")
-            elif sum(bj_game.score_dealer) == sum(bj_game.score_player):
-                bj_game.player_bankroll += current_bet
-                print("The result is PUSH.")
-            elif sum(bj_game.score_dealer) < sum(bj_game.score_player):
-                bj_game.player_bankroll += 2 * current_bet
-                print(f"{bj_game.player_name} WON the current hand.")
-            bj_game.final_score_and_cards()
-
-        elif sum(bj_game.score_dealer) < 17:
-            while True:
-                if sum(bj_game.score_dealer) > sum(bj_game.score_player) and sum(bj_game.score_dealer) >= 17:
-                    print(f"The dealer has won the current hand.")
-                    break
-                bj_game.dealer_draws_a_card()
-                if sum(bj_game.score_dealer) > 21:
-                    bj_game.player_bankroll += 2 * current_bet
-                    print("The dealer busted. Player wins !")
-                    break
-                elif 17 <= sum(bj_game.score_dealer) <= 21:
-                    if sum(bj_game.score_dealer) > sum(bj_game.score_player):
-                        print("The dealer won the current hand.")
-                    elif sum(bj_game.score_dealer) == sum(bj_game.score_player):
-                        bj_game.player_bankroll += current_bet
-                        print("The result is PUSH.")
-                    elif sum(bj_game.score_dealer) < sum(bj_game.score_player):
-                        bj_game.player_bankroll += 2 * current_bet
-                        print(f"{bj_game.player_name} WON the current hand.")
-                    bj_game.final_score_and_cards()
-                    break
+        if sum(bj_game.score_player) <= 21:
+            if sum(bj_game.score_dealer) == 21:
+                if sum(bj_game.score_player) == 21:
+                    bj_game.player_bankroll += current_bet
+                    print("Both the player and the dealer have 21\n The result is PUSH.")
+                elif sum(bj_game.score_dealer) > sum(bj_game.score_player):
+                    print(f"The dealer wins the current hand.")
                 bj_game.final_score_and_cards()
+
+            elif 17 <= sum(bj_game.score_dealer) < 21:
+                print("The dealer is not allowed to draw more cards.")
+                if sum(bj_game.score_dealer) > sum(bj_game.score_player):
+                    print("The dealer won the current hand.")
+                elif sum(bj_game.score_dealer) == sum(bj_game.score_player):
+                    bj_game.player_bankroll += current_bet
+                    print("The result is PUSH.")
+                elif sum(bj_game.score_dealer) < sum(bj_game.score_player):
+                    bj_game.player_bankroll += 2 * current_bet
+                    print(f"{bj_game.player_name} WON the current hand.")
+                bj_game.final_score_and_cards()
+
+            elif sum(bj_game.score_dealer) < 17:
+                while True:
+                    if sum(bj_game.score_dealer) > sum(bj_game.score_player) and sum(bj_game.score_dealer) >= 17:
+                        print(f"The dealer has won the current hand.")
+                        break
+                    bj_game.dealer_draws_a_card()
+                    if sum(bj_game.score_dealer) > 21:
+                        bj_game.player_bankroll += 2 * current_bet
+                        print("The dealer busted. Player wins !")
+                        break
+                    elif 17 <= sum(bj_game.score_dealer) <= 21:
+                        if sum(bj_game.score_dealer) > sum(bj_game.score_player):
+                            print("The dealer won the current hand.")
+                        elif sum(bj_game.score_dealer) == sum(bj_game.score_player):
+                            bj_game.player_bankroll += current_bet
+                            print("The result is PUSH.")
+                        elif sum(bj_game.score_dealer) < sum(bj_game.score_player):
+                            bj_game.player_bankroll += 2 * current_bet
+                            print(f"{bj_game.player_name} WON the current hand.")
+                        bj_game.final_score_and_cards()
+                        break
+                    bj_game.final_score_and_cards()
     bj_game.check_bankroll()
     one_more_hand = input("Do you wanna play another game? YES/NO \n")
 
@@ -170,28 +169,9 @@ def play_the_game(bj_game:BJ):
 
 
 
-name = input("Enter your name: \n")
-bankroll = float(input("Enter your bankroll: \n"))
+#name = input("Enter your name: \n")
+#bankroll = float(input("Enter your bankroll: \n"))
+name = "Angel"
+bankroll = 1000
 game = BJ(name,bankroll)
 play_the_game(game)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
